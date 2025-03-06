@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lun4r | Astral</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #050518, #1a0535, #050518);
+            background-size: 400% 400%;
+            font-family: 'Arial', sans-serif;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            animation: backgroundShift 20s infinite alternate;
+        }
+
+        @keyframes backgroundShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.1; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.1; transform: scale(0.8); }
+        }
+
+        .small-star {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0));
+            animation: shoot 8s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(-100px) translateY(0px) rotate(30deg);
+                opacity: 0;
+            }
+            1% {
+                opacity: 1;
+            }
+            10% {
+                transform: translateX(calc(100vw + 100px)) translateY(calc(100vh - 200px)) rotate(30deg);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(calc(100vh - 200px)) rotate(30deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-align: center;
+            background: linear-gradient(45deg, #9370DB, #6A5ACD, #483D8B);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #b8a9ff;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            background: rgba(20, 20, 60, 0.6);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 120px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.5);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .social-name {
+            color: #d0d0ff;
+            font-size: 0.9rem;
+        }
+
+        .social-handle {
+            color: #b8a9ff;
+            font-size: 0.8rem;
+        }
+
+        .section-header {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            color: #b8a9ff;
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .section-header::before, .section-header::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #b8a9ff, transparent);
+        }
+
+        .section-header::before {
+            left: -100px;
+        }
+
+        .section-header::after {
+            right: -100px;
+        }
+
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #8080a0;
+        }
+
+        .moon {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #9370DB, #d0d0ff);
+            top: 50px;
+            right: 100px;
+            box-shadow: 0 0 30px rgba(216, 180, 254, 0.8);
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .social-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .social-link {
+                width: 200px;
+            }
+            
+            .moon {
+                width: 70px;
+                height: 70px;
+                top: 30px;
+                right: 30px;
+            }
+            
+            .section-header::before {
+                left: 0;
+                width: 30px;
+            }
+
+            .section-header::after {
+                right: 0;
+                width: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div id="small-stars"></div>
+    <div id="shooting-stars"></div>
+    <div class="moon"></div>
+    
+    <div class="container">
+        <h1 class="logo">Lun4r</h1>
+        <p class="tagline">Connecting through the void</p>
+        
+        <div class="social-links">
+            <a href="https://twitter.com/lun4rsea" class="social-link" target="_blank">
+                <div class="social-icon">✦</div>
+                <div class="social-name">Twitter</div>
+                <div class="social-handle">@lun4rsea</div>
+            </a>
+            
+            <a href="https://t.me/lun4rsea" class="social-link" target="_blank">
+                <div class="social-icon">☽</div>
+                <div class="social-name">Telegram</div>
+                <div class="social-handle">@lun4rsea</div>
+            </a>
+            
+            <a href="https://github.com/lun4rsea" class="social-link" target="_blank">
+                <div class="social-icon">⋆</div>
+                <div class="social-name">GitHub</div>
+                <div class="social-handle">@lun4rsea</div>
+            </a>
+        </div>
+        
+        <div class="section-header">KOL Presence</div>
+        
+        <div class="social-links">
+            <a href="https://twitter.com/astralsent" class="social-link" target="_blank">
+                <div class="social-icon">★</div>
+                <div class="social-name">Twitter</div>
+                <div class="social-handle">@astralsent</div>
+            </a>
+            
+            <a href="https://t.me/astralsent" class="social-link" target="_blank">
+                <div class="social-icon">✧</div>
+                <div class="social-name">Telegram</div>
+                <div class="social-handle">@astralsent</div>
+            </a>
+            
+            <a href="https://t.me/astralcalls" class="social-link" target="_blank">
+                <div class="social-icon">☄</div>
+                <div class="social-name">Call Channel</div>
+                <div class="social-handle">@astralcalls</div>
+            </a>
+        </div>
+        
+        <div class="footer">
+            © 2025 lun4r • Presence in the digital aether
+        </div>
+    </div>
+
+    <script>
+        // Create twinkling stars
+        const starsContainer = document.getElementById('stars');
+        const starCount = 100;
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            // Random position
+            const x = Math.floor(Math.random() * window.innerWidth);
+            const y = Math.floor(Math.random() * window.innerHeight);
+            
+            // Random size for more variation
+            const size = Math.random() * 4;
+            
+            // Random animation delay
+            const delay = Math.random() * 5;
+            
+            star.style.left = `${x}px`;
+            star.style.top = `${y}px`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.animationDelay = `${delay}s`;
+            
+            starsContainer.appendChild(star);
+        }
+        
+        // Create small background stars (non-twinkling)
+        const smallStarsContainer = document.getElementById('small-stars');
+        const smallStarCount = 500; // Add many more small stars
+        
+        for (let i = 0; i < smallStarCount; i++) {
+            const smallStar = document.createElement('div');
+            smallStar.className = 'small-star';
+            
+            // Random position
+            const x = Math.floor(Math.random() * window.innerWidth);
+            const y = Math.floor(Math.random() * window.innerHeight);
+            
+            // Random opacity for depth effect
+            const opacity = 0.1 + Math.random() * 0.7;
+            
+            smallStar.style.left = `${x}px`;
+            smallStar.style.top = `${y}px`;
+            smallStar.style.opacity = opacity;
+            
+            smallStarsContainer.appendChild(smallStar);
+        }
+        
+        // Create shooting stars
+        const shootingStarsContainer = document.getElementById('shooting-stars');
+        const shootingStarCount = 3;
+        
+        for (let i = 0; i < shootingStarCount; i++) {
+            const shootingStar = document.createElement('div');
+            shootingStar.className = 'shooting-star';
+            
+            // Random position, length and angle
+            const length = 50 + Math.random() * 150;
+            const delay = Math.random() * 15;
+            const angle = 15 + Math.random() * 60;
+            
+            shootingStar.style.width = `${length}px`;
+            shootingStar.style.animationDelay = `${delay}s`;
+            shootingStar.style.transform = `rotate(${angle}deg)`;
+            
+            shootingStarsContainer.appendChild(shootingStar);
+        }
+    </script>
+</body>
+</html>
