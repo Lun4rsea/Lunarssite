@@ -1,32 +1,22 @@
-from flask import Flask, render_template
-from gunicorn.app.base import BaseApplication
+from flask import request
+import logging
+from flask import Flask, render_template, url_for
+# from gunicorn.app.base import BaseApplication
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder='static')
 
+@app.before_request
+def before_request():
+    request.user_ip = request.headers.get('cf-connecting-ip')
+
 @app.route("/")
 def home_route():
-    return render_template("lun4rsocial.html")
+    return render_template("Lun4rSocial.html", user_ip=request.user_ip)
 
-class StandaloneApplication(BaseApplication):
-    def __init__(self, app, options=None):
-        self.application = app
-        self.options = options or {}
-        super().__init__()
-
-    def load_config(self):
-        for key, value in self.options.items():
-            if key in self.cfg.settings and value is not None:
-                self.cfg.set(key.lower(), value)
-
-    def load(self):
-        return self.application
 
 if __name__ == "__main__":
-    options = {
-        "bind": "0.0.0.0:8080",
-        "workers": 4,
-        "loglevel": "info",
-        "accesslog": "-",
-        "preload_app": True
-    }
-    StandaloneApplication(app, options).run()
+    app.run(host="0.0.0.0", port=8080)
